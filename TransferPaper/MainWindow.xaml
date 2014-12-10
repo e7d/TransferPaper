@@ -1,0 +1,90 @@
+﻿<Window x:Class="TransferPaper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:TransferPaper"
+        Title="Transfer Paper"
+        Width="480"
+        Height="400"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="#01000000"
+        AllowsTransparency="True"
+        MouseDown="MainWindow_OnMouseDown"
+        MouseUp="MainWindow_OnMouseUp"
+        MouseMove="MainWindow_MouseMove"
+        MouseWheel="MainWindow_MouseWheel"
+        KeyDown="MainWindow_KeyDown"
+        KeyUp="MainWindow_KeyUp"
+        AllowDrop="True"
+        Drop="MainWindow_Drop"
+        Icon="Assets/TransferPaper.ico">
+
+    <Grid x:Name="GridRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="5" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="5" />
+        </Grid.ColumnDefinitions>
+
+        <Border x:Name="BorderBackground"
+                Grid.Row="0"
+                Grid.RowSpan="7"
+                Grid.Column="0"
+                Grid.ColumnSpan="7"
+                Background="White"
+                Opacity="0.9" />
+
+        <Grid Grid.Row="1"
+              Grid.Column="5"
+              VerticalAlignment="Center">
+            <TextBlock x:Name="ButtonCloseCross"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       TextAlignment="Center"
+                       TextWrapping="Wrap"
+                       Background="Transparent"
+                       Foreground="DimGray"
+                       Cursor="Hand"
+                       MouseUp="ButtonCloseCross_MouseUp"
+                       TouchUp="ButtonCloseCross_OnTouchUp">
+            &#10006;
+            </TextBlock>
+        </Grid>
+
+        <Button x:Name="ButtonLoadDecal"
+                Grid.Row="3"
+                Grid.Column="3"
+                Width="160"
+                Height="40"
+                Background="WhiteSmoke"
+                BorderBrush="DarkGray"
+                BorderThickness="1"
+                Cursor="Hand"
+                Click="ButtonLoadDecal_Click"
+                TouchUp="ButtonLoadDecal_Click">
+            Load or Drop a Decal
+        </Button>
+
+        <TextBlock x:Name="TextBlockHelp"
+                   Grid.Row="5"
+                   Grid.Column="2"
+                   Grid.ColumnSpan="3"
+                   TextAlignment="Center">
+            Adjust opacity using mouse wheel or "+" and "-" keys.
+        </TextBlock>
+    </Grid>
+</Window>
