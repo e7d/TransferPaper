@@ -44,7 +44,15 @@ namespace TransferPaper
 
             this.BrowseDecalDialog = new OpenFileDialog();
             this.BrowseDecalDialog.Filter =
-                "Image Files (*.jpg; *.jpeg; *.gif; *.png; *.bmp)|*.jpg; *.jpeg; *.gif; *.png; *.bmp";
+                string.Concat(new string[7] {
+                    "Image Files (*.bmp; *.dds; *.gif; *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.tga)|*.bmp; *.dds; *.gif; *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.tga",
+                    "|Bitmap (*.bmp)|*.bmp",
+                    "|DirectDraw Surface (DDS) (*.dds)|*.dds",
+                    "|Graphics Interchange Format (GIF )(*.gif)|*.gif",
+                    "|JPEG (*.jpg; *.jpeg; *.jpe; *.jif; *.jfif)|*.jpg; *.jpeg; *.jpe; *.ijpngf; *.jfif",
+                    "|Portable Network Graphics (PNG) (*.png)|*.png",
+                    "|Truevision Targa (TGA) (*.tga)|*.tga",
+                });
         }
 
         #endregion
@@ -89,8 +97,22 @@ namespace TransferPaper
             try
             {
                 var decalBitmap = new BitmapImage(new Uri(path));
-                this.Width = Math.Min(decalBitmap.Width, SystemParameters.PrimaryScreenWidth);
-                this.Height = Math.Min(decalBitmap.Height, SystemParameters.PrimaryScreenHeight);
+                var decalRatio = decalBitmap.Width / decalBitmap.Height;
+                var screenRatio = SystemParameters.PrimaryScreenWidth / SystemParameters.PrimaryScreenHeight;
+
+                double width = Math.Min(decalBitmap.Width, SystemParameters.PrimaryScreenWidth);
+                double height = Math.Min(decalBitmap.Height, SystemParameters.PrimaryScreenHeight);
+                if (decalRatio < screenRatio)
+                {
+                    width = height * decalRatio;
+                }
+                else if (decalRatio > screenRatio)
+                {
+                    height = width / decalRatio;
+                }
+
+                this.Width = width;
+                this.Height = height;
                 this.BorderBackground.Background = new ImageBrush(decalBitmap);
                 this.Topmost = true;
 
@@ -100,9 +122,9 @@ namespace TransferPaper
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Hey, Dummy! That was not an image!\r\n\r\nDetails:\r\n" + ex.Message, 
-                    "Invalid input", 
-                    MessageBoxButton.OK, 
+                    "Hey, Dummy! That was not an image!\r\n\r\nDetails:\r\n" + ex.Message,
+                    "Invalid input",
+                    MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
@@ -194,7 +216,7 @@ namespace TransferPaper
             this.UpdateOpacity();
         }
 
-        private void MainWindow_OnMouseDown(object sender, MouseButtonEventArgs e)        
+        private void MainWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 this.Cursor = Cursors.SizeAll;

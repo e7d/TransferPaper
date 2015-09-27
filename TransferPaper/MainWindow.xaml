@@ -1,7 +1,8 @@
-﻿<Window x:Class="TransferPaper.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="using:TransferPaper"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="TransferPaper.MainWindow"
         Title="Transfer Paper"
         Width="480"
         Height="400"
@@ -19,6 +20,32 @@
         AllowDrop="True"
         Drop="MainWindow_Drop"
         Icon="Assets/TransferPaper.ico">
+    <Window.Resources>
+        <Style x:Key="ButtonCloseCross" TargetType="{x:Type TextBlock}">
+            <Style.Resources>
+                <Storyboard x:Key="OnMouseEnter">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="{x:Null}">
+                        <EasingColorKeyFrame KeyTime="0" Value="#FF252525"/>
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Key="OnMouseLeave">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="{x:Null}">
+                        <EasingColorKeyFrame KeyTime="0" Value="DimGray"/>
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+            </Style.Resources>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard x:Name="OnMouseEnter_BeginStoryboard" Storyboard="{StaticResource OnMouseEnter}"/>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard x:Name="OnMouseLeave_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave}"/>
+                </EventTrigger>
+            </Style.Triggers>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextTrimming" Value="None"/>
+        </Style>
+    </Window.Resources>
 
     <Grid x:Name="GridRoot">
         <Grid.RowDefinitions>
@@ -41,50 +68,49 @@
         </Grid.ColumnDefinitions>
 
         <Border x:Name="BorderBackground"
-                Grid.Row="0"
-                Grid.RowSpan="7"
-                Grid.Column="0"
-                Grid.ColumnSpan="7"
-                Background="White"
-                Opacity="0.9" />
+			Grid.Row="0"
+			Grid.RowSpan="7"
+			Grid.Column="0"
+			Grid.ColumnSpan="7"
+			Background="White"
+			Opacity="0.9" >
+        </Border>
 
-        <Grid Grid.Row="1"
-              Grid.Column="5"
-              VerticalAlignment="Center">
-            <TextBlock x:Name="ButtonCloseCross"
-                       HorizontalAlignment="Stretch"
-                       VerticalAlignment="Stretch"
-                       TextAlignment="Center"
-                       TextWrapping="Wrap"
-                       Background="Transparent"
-                       Foreground="DimGray"
-                       Cursor="Hand"
-                       MouseUp="ButtonCloseCross_MouseUp"
-                       TouchUp="ButtonCloseCross_OnTouchUp">
-            &#10006;
-            </TextBlock>
-        </Grid>
+        <Image x:Name="ImageIcon"
+            Grid.Row="1"
+			Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+			Source="Assets/TransferPaper.ico"/>
+
+        <TextBlock x:Name="ButtonCloseCross"
+			Grid.Row="1"
+			Grid.Column="5"
+            HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			TextAlignment="Center"
+			Background="Transparent"
+			Foreground="DimGray"
+			Cursor="Hand"
+			MouseUp="ButtonCloseCross_MouseUp"
+			TouchUp="ButtonCloseCross_OnTouchUp" Style="{DynamicResource ButtonCloseCross}"><Run Text="✖"/></TextBlock>
 
         <Button x:Name="ButtonLoadDecal"
-                Grid.Row="3"
-                Grid.Column="3"
-                Width="160"
-                Height="40"
-                Background="WhiteSmoke"
-                BorderBrush="DarkGray"
-                BorderThickness="1"
-                Cursor="Hand"
-                Click="ButtonLoadDecal_Click"
-                TouchUp="ButtonLoadDecal_Click">
-            Load or Drop a Decal
-        </Button>
+			Grid.Row="3"
+			Grid.Column="3"
+			Width="160"
+			Height="40"
+			Background="WhiteSmoke"
+			BorderBrush="DarkGray"
+			BorderThickness="1"
+			Cursor="Hand"
+			Click="ButtonLoadDecal_Click"
+			TouchUp="ButtonLoadDecal_Click" Content="Load or Drop a Decal"/>
 
         <TextBlock x:Name="TextBlockHelp"
-                   Grid.Row="5"
-                   Grid.Column="2"
-                   Grid.ColumnSpan="3"
-                   TextAlignment="Center">
-            Adjust opacity using mouse wheel or "+" and "-" keys.
-        </TextBlock>
+			Grid.Row="5"
+			Grid.Column="2"
+			Grid.ColumnSpan="3"
+			TextAlignment="Center"><Run Text="Adjust opacity using mouse wheel or &quot;+&quot; and &quot;-&quot; keys."/></TextBlock>
     </Grid>
 </Window>
